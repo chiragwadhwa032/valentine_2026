@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine?</title>
+
+<audio id="bgMusic" loop>
+  <source src="tu-mileya.mp3" type="audio/mpeg">
+</audio>
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+/* 🌸 Lily background */
+body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(255,210,225,0.55), rgba(255,210,225,0.55)),
+    url("https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=2000&auto=format&fit=crop");
+  background-size: cover;
+  background-position: center;
+}
+
+/* ❤️ Floating heart images (wrapper) */
+.photo {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  cursor: pointer;
+  animation: floatUp linear infinite;
+  transition: transform 0.35s ease;
+  z-index: 1;
+}
+
+.photo:hover {
+  transform: scale(1.35);
+  z-index: 10;
+}
+
+/* SVG heart styling */
+.photo svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 12px 25px rgba(0,0,0,0.35));
+}
+
+/* Floating motion */
+@keyframes floatUp {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-140vh); }
+}
+
+/* 💌 Main card */
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(520px, 92%);
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(8px);
+  padding: 40px;
+  border-radius: 32px;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+  text-align: center;
+  z-index: 5;
+}
+
+h1 { color: #ff2f77; font-size: 34px; margin-bottom: 8px; }
+p  { color: #333; font-size: 18px; }
+
+/* Buttons */
+.buttons {
+  margin-top: 26px;
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+}
+
+button {
+  padding: 14px 34px;
+  border-radius: 999px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  background: #f6f6f6;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+#yesBtn {
+  background: linear-gradient(#ff4f85,#ff2f6f);
+  color: white;
+}
+
+/* No swap animation */
+.swapFast {
+  animation: swapFast 0.14s ease;
+}
+@keyframes swapFast {
+  40% { opacity: 0.4; transform: rotate(-10deg) scale(0.95); }
+}
+
+/* Envelope */
+.envelope {
+  display: none;
+  margin: 30px auto 0;
+  width: 240px;
+  height: 150px;
+  border-radius: 18px;
+  background: linear-gradient(#ffd7e1,#ffc0cf);
+  font-weight: bold;
+  color: #9b043a;
+  cursor: pointer;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.18);
+  align-items: center;
+  justify-content: center;
+}
+
+/* Poem overlay */
+.poemOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(255,210,225,0.3);
+  backdrop-filter: blur(6px);
+  z-index: 20;
+}
+
+.poemBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: min(520px, 90%);
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 24px;
+}
+
+textarea {
+  width: 100%;
+  height: 150px;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.final {
+  margin-top: 14px;
+  color: #ff2f77;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Floating hearts */
+.heart {
+  position: fixed;
+  font-size: 18px;
+  animation: heartFloat 4s linear forwards;
+}
+@keyframes heartFloat {
+  to { transform: translateY(-100vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ❤️ HEART-SHAPED IMAGES -->
+<script>
+const photos = [
+  "images/photo1.jpeg","images/photo2.jpeg","images/photo3.jpeg",
+  "images/photo4.jpeg","images/photo5.jpeg","images/photo6.jpeg",
+  "images/photo7.jpeg","images/photo8.jpeg","images/photo9.jpeg",
+  "images/photo10.jpeg","images/photo11.jpeg"
+].map(p => encodeURI(p));
+
+const total = 26;
+
+for (let i = 0; i < total; i++) {
+  const wrapper = document.createElement("div");
+  wrapper.className = "photo";
+
+  wrapper.innerHTML = `
+    <svg viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="heartClip">
+          <path d="
+            M23.6,0
+            c-3.4,0-6.4,2-7.6,4.9
+            C14.8,2,11.8,0,8.4,0
+            C3.8,0,0,3.8,0,8.4
+            c0,9.4,16,21.2,16,21.2
+            s16-11.8,16-21.2
+            C32,3.8,28.2,0,23.6,0z"/>
+        </clipPath>
+      </defs>
+      <image href="${photos[i % photos.length]}"
+             clip-path="url(#heartClip)"
+             preserveAspectRatio="xMidYMid slice"
+             width="32" height="29.6"/>
+    </svg>
+  `;
+
+  wrapper.style.left = Math.random() * 95 + "vw";
+  wrapper.style.top  = Math.random() * 100 + "vh";
+  wrapper.style.animationDuration = (14 + Math.random() * 8) + "s";
+
+  document.body.appendChild(wrapper);
+}
+</script>
+
+<div class="card">
+  <h1>Hey Divya 💖</h1>
+  <p>Will you be my Valentine…<br><strong>and my forever?</strong> 🌸</p>
+
+  <div class="buttons" id="buttons">
+    <button id="yesBtn">Yes 💕</button>
+    <button id="noBtn">No 🙈</button>
+  </div>
+
+  <div class="envelope" id="envelope">Open to get your present 💌</div>
+</div>
+
+<div class="poemOverlay" id="poemOverlay">
+  <div class="poemBox">
+    <h2 style="color:#ff2f77; margin-bottom:12px;">
+      What’s the rush? 😌
+    </h2>
+    <p style="font-size:18px; color:#444;">
+      Come back tomorrow for a new surprise 💖
+    </p>
+  </div>
+</div>
+
+<script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const buttons = document.getElementById("buttons");
+const envelope = document.getElementById("envelope");
+const poemOverlay = document.getElementById("poemOverlay");
+const music = document.getElementById("bgMusic");
+
+document.body.addEventListener("click", () => {
+  music?.play().catch(()=>{});
+}, { once: true });
+
+let isYesLeft = true;
+let animating = false;
+
+function swapButtons() {
+  if (animating) return;
+  animating = true;
+
+  yesBtn.classList.add("swapFast");
+  noBtn.classList.add("swapFast");
+
+  setTimeout(() => {
+    if (isYesLeft) {
+      yesBtn.after(noBtn);
+    } else {
+      noBtn.after(yesBtn);
+    }
+    isYesLeft = !isYesLeft;
+    yesBtn.classList.remove("swapFast");
+    noBtn.classList.remove("swapFast");
+    animating = false;
+  }, 140);
+}
+
+noBtn.addEventListener("mouseenter", swapButtons);
+noBtn.addEventListener("click", swapButtons);
+
+yesBtn.addEventListener("click", () => {
+  buttons.style.display = "none";
+  envelope.style.display = "flex";
+  createHearts();
+});
+
+envelope.addEventListener("click", () => {
+  poemOverlay.style.display = "block";
+});
+
+function createHearts() {
+  for (let i = 0; i < 26; i++) {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.textContent = "💖";
+    h.style.left = Math.random() * 95 + "vw";
+    h.style.bottom = "-20px";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 4000);
+  }
+}
+</script>
+
+</body>
+</html>
