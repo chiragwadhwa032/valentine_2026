@@ -162,7 +162,7 @@ textarea {
 /* Floating hearts */
 .heart {
   position: fixed;
-  font-size: 25px;
+  font-size: 40px;
   animation: heartFloat 4s linear forwards;
 }
 @keyframes heartFloat {
@@ -299,7 +299,7 @@ function createHearts() {
     const h = document.createElement("div");
     h.className = "heart";
     h.textContent = "💖";
-    h.style.left = Math.random() * 85 + "vw";
+    h.style.left = Math.random() * 95 + "vw";
     h.style.bottom = "-18px";
     document.body.appendChild(h);
     setTimeout(() => h.remove(), 4000);
@@ -310,6 +310,7 @@ function createHearts() {
 </body>
 
 </html>
+
 
 
 
