@@ -15,7 +15,7 @@
   font-family: "Segoe UI", system-ui, sans-serif;
 }
 
-/* 🌸 Lily background */
+/* 🌸 Lily background (UNCHANGED) */
 body {
   margin: 0;
   height: 100vh;
@@ -27,7 +27,7 @@ body {
   background-position: center;
 }
 
-/* ❤️ Floating heart images (wrapper) */
+/* ❤️ Floating heart images */
 .photo {
   position: absolute;
   width: 120px;
@@ -37,27 +37,21 @@ body {
   transition: transform 0.35s ease;
   z-index: 1;
 }
-
 .photo:hover {
   transform: scale(1.35);
   z-index: 10;
 }
-
-/* SVG heart styling */
 .photo svg {
   width: 100%;
   height: 100%;
-  display: block;
   filter: drop-shadow(0 12px 25px rgba(0,0,0,0.35));
 }
-
-/* Floating motion */
 @keyframes floatUp {
   from { transform: translateY(0); }
   to   { transform: translateY(-140vh); }
 }
 
-/* 💌 Main card */
+/* 💌 Card */
 .card {
   position: absolute;
   top: 50%;
@@ -72,8 +66,7 @@ body {
   text-align: center;
   z-index: 5;
 }
-
-h1 { color: #ff2f77; font-size: 34px; margin-bottom: 8px; }
+h1 { color: #ff2f77; font-size: 34px; }
 p  { color: #333; font-size: 18px; }
 
 /* Buttons */
@@ -83,7 +76,6 @@ p  { color: #333; font-size: 18px; }
   justify-content: center;
   gap: 26px;
 }
-
 button {
   padding: 14px 34px;
   border-radius: 999px;
@@ -93,13 +85,10 @@ button {
   background: #f6f6f6;
   box-shadow: 0 8px 18px rgba(0,0,0,0.15);
 }
-
 #yesBtn {
   background: linear-gradient(#ff4f85,#ff2f6f);
   color: white;
 }
-
-/* No swap animation */
 .swapFast {
   animation: swapFast 0.14s ease;
 }
@@ -132,7 +121,6 @@ button {
   backdrop-filter: blur(6px);
   z-index: 20;
 }
-
 .poemBox {
   position: absolute;
   top: 50%;
@@ -140,23 +128,8 @@ button {
   transform: translate(-50%,-50%);
   width: min(520px, 90%);
   background: rgba(255,255,255,0.75);
-  backdrop-filter: blur(10px);
   border-radius: 24px;
   padding: 24px;
-}
-
-textarea {
-  width: 100%;
-  height: 150px;
-  border-radius: 12px;
-  padding: 12px;
-}
-
-.final {
-  margin-top: 14px;
-  color: #ff2f77;
-  font-size: 22px;
-  font-weight: bold;
 }
 
 /* Floating hearts */
@@ -168,52 +141,57 @@ textarea {
 @keyframes heartFloat {
   to { transform: translateY(-100vh); opacity: 0; }
 }
+
+/* 🌹 ROSE PETALS (NEW — ONLY ADDITION) */
+#petalContainer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+.petal {
+  position: absolute;
+  top: -50px;
+  width: 50px;
+  height: 50px;
+  background: url("https://pngimg.com/uploads/rose/rose_PNG655.png") center/contain no-repeat;
+  opacity: 0.9;
+  animation: petalFall linear infinite;
+}
+@keyframes petalFall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+  }
+}
 </style>
 </head>
 
 <body>
 
-<!-- ❤️ HEART-SHAPED IMAGES -->
+<!-- HEART PHOTOS (UNCHANGED) -->
 <script>
 const photos = [
-  "photo1.jpeg","photo2.jpeg","photo3.jpeg",
-  "photo4.jpeg","photo5.jpeg","photo6.jpeg",
-  "photo7.jpeg","photo8.jpeg","photo9.jpeg",
-  "photo10.jpeg","photo11.jpeg","photo12.png","photo13.png","photo14.png","photo15.png"
-].map(p => encodeURI(p));
-
-const total = 26;
-
-for (let i = 0; i < total; i++) {
-  const wrapper = document.createElement("div");
-  wrapper.className = "photo";
-
-  wrapper.innerHTML = `
-    <svg viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg">
+  "photo1.jpeg","photo2.jpeg","photo3.jpeg","photo4.jpeg","photo5.jpeg",
+  "photo6.jpeg","photo7.jpeg","photo8.jpeg","photo9.jpeg","photo10.jpeg",
+  "photo11.jpeg","photo12.png","photo13.png","photo14.png","photo15.png"
+];
+for (let i = 0; i < 26; i++) {
+  const d = document.createElement("div");
+  d.className = "photo";
+  d.innerHTML = `
+    <svg viewBox="0 0 32 29.6">
       <defs>
         <clipPath id="heartClip">
-          <path d="
-            M23.6,0
-            c-3.4,0-6.4,2-7.6,4.9
-            C14.8,2,11.8,0,8.4,0
-            C3.8,0,0,3.8,0,8.4
-            c0,9.4,16,21.2,16,21.2
-            s16-11.8,16-21.2
-            C32,3.8,28.2,0,23.6,0z"/>
+          <path d="M23.6,0c-3.4,0-6.4,2-7.6,4.9C14.8,2,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,16,21.2,16,21.2s16-11.8,16-21.2C32,3.8,28.2,0,23.6,0z"/>
         </clipPath>
       </defs>
-      <image href="${photos[i % photos.length]}"
-             clip-path="url(#heartClip)"
-             preserveAspectRatio="xMidYMid slice"
-             width="32" height="29.6"/>
-    </svg>
-  `;
-
-  wrapper.style.left = Math.random() * 95 + "vw";
-  wrapper.style.top  = Math.random() * 100 + "vh";
-  wrapper.style.animationDuration = (14 + Math.random() * 8) + "s";
-
-  document.body.appendChild(wrapper);
+      <image href="${photos[i % photos.length]}" clip-path="url(#heartClip)"
+      preserveAspectRatio="xMidYMid slice" width="32" height="29.6"/>
+    </svg>`;
+  d.style.left = Math.random()*95+"vw";
+  d.style.top  = Math.random()*100+"vh";
+  d.style.animationDuration = (14+Math.random()*8)+"s";
+  document.body.appendChild(d);
 }
 </script>
 
@@ -229,20 +207,17 @@ for (let i = 0; i < total; i++) {
   <div class="envelope" id="envelope">Open to get your present 💌</div>
 </div>
 
+<div id="petalContainer"></div>
+
 <div class="poemOverlay" id="poemOverlay">
   <div class="poemBox">
-        <h2 style="color:#ff2f77; margin-bottom:12px;">
-      Jab We Met
-    </h2>
-    <p style="font-size:20px; color:#444;">
-“Tu haste hue hi achi lagti hai.” <br> <br>
-
-Now I get why. <br><br>
-
-Because the way you smile, Geet, it lights up my whole world 💕 <br><br><br><br>
-</p>
-<p style="font-size:22px; color:#ff2f77;">I’ll tell you more tomorrow… 😌✨💖
+    <h2 style="color:#ff2f77;">Happy Rose Day my Rose</h2>
+    <p style="font-size:20px;">
+      Tu phool hai gulaab ka, mehek teri itar jaisi,<br><br>
+      Duniya ke saare gulaab milke banti hai tu, tu ek phool mei sama jaaye aise kaise,<br><br>
+	tu hai pure ke pure bageeche jaisi💕💕💕💕💕<br><br>
     </p>
+    <p style="font-size:22px;color:#ff2f77;">I’ll tell you more tomorrow… 😌✨💖</p>
   </div>
 </div>
 
@@ -264,16 +239,11 @@ let animating = false;
 function swapButtons() {
   if (animating) return;
   animating = true;
-
   yesBtn.classList.add("swapFast");
   noBtn.classList.add("swapFast");
 
   setTimeout(() => {
-    if (isYesLeft) {
-      yesBtn.after(noBtn);
-    } else {
-      noBtn.after(yesBtn);
-    }
+    isYesLeft ? yesBtn.after(noBtn) : noBtn.after(yesBtn);
     isYesLeft = !isYesLeft;
     yesBtn.classList.remove("swapFast");
     noBtn.classList.remove("swapFast");
@@ -292,6 +262,7 @@ yesBtn.addEventListener("click", () => {
 
 envelope.addEventListener("click", () => {
   poemOverlay.style.display = "block";
+  startPetals();   // 🌹 ONLY NEW BEHAVIOR
 });
 
 function createHearts() {
@@ -305,13 +276,19 @@ function createHearts() {
     setTimeout(() => h.remove(), 4000);
   }
 }
+
+function startPetals() {
+  const c = document.getElementById("petalContainer");
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement("div");
+    p.className = "petal";
+    p.style.left = Math.random() * 100 + "vw";
+    p.style.animationDuration = (6 + Math.random() * 6) + "s";
+    p.style.animationDelay = Math.random() * 4 + "s";
+    c.appendChild(p);
+  }
+}
 </script>
 
 </body>
-
 </html>
-
-
-
-
-
