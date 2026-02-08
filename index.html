@@ -5,17 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Will You Be My Valentine?</title>
 
-<audio id="bgMusic" loop>
-  <source src="tu-mileya.mp3" type="audio/mpeg">
-</audio>
-
 <style>
 * {
   box-sizing: border-box;
   font-family: "Segoe UI", system-ui, sans-serif;
 }
 
-/* 🌸 Lily background (UNCHANGED) */
 body {
   margin: 0;
   height: 100vh;
@@ -27,7 +22,6 @@ body {
   background-position: center;
 }
 
-/* ❤️ Floating heart images */
 .photo {
   position: absolute;
   width: 120px;
@@ -51,7 +45,6 @@ body {
   to   { transform: translateY(-140vh); }
 }
 
-/* 💌 Card */
 .card {
   position: absolute;
   top: 50%;
@@ -69,7 +62,6 @@ body {
 h1 { color: #ff2f77; font-size: 34px; }
 p  { color: #333; font-size: 18px; }
 
-/* Buttons */
 .buttons {
   margin-top: 26px;
   display: flex;
@@ -96,7 +88,6 @@ button {
   40% { opacity: 0.4; transform: rotate(-10deg) scale(0.95); }
 }
 
-/* Envelope */
 .envelope {
   display: none;
   margin: 30px auto 0;
@@ -112,7 +103,6 @@ button {
   justify-content: center;
 }
 
-/* Poem overlay */
 .poemOverlay {
   display: none;
   position: fixed;
@@ -132,7 +122,6 @@ button {
   padding: 24px;
 }
 
-/* Floating hearts */
 .heart {
   position: fixed;
   font-size: 40px;
@@ -142,7 +131,6 @@ button {
   to { transform: translateY(-100vh); opacity: 0; }
 }
 
-/* 🌹 ROSE PETALS (NEW — ONLY ADDITION) */
 #petalContainer {
   position: fixed;
   inset: 0;
@@ -159,16 +147,16 @@ button {
   animation: petalFall linear infinite;
 }
 @keyframes petalFall {
-  to {
-    transform: translateY(110vh) rotate(360deg);
-  }
+  to { transform: translateY(110vh) rotate(360deg); }
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEART PHOTOS (UNCHANGED) -->
+<!-- 🔊 BACKGROUND MUSIC (YOUR VOICE + INSTRUMENTAL) -->
+<audio id="bgMusic" src="rec.mp3" preload="auto" loop></audio>
+
 <script>
 const photos = [
   "photo1.jpeg","photo2.jpeg","photo3.jpeg","photo4.jpeg","photo5.jpeg",
@@ -211,11 +199,18 @@ for (let i = 0; i < 26; i++) {
 
 <div class="poemOverlay" id="poemOverlay">
   <div class="poemBox">
-    <h2 style="color:#ff2f77;">Happy Rose Day my Rose</h2>
+    <h2 style="color:#ff2f77;">Happy Propose Day my Everything</h2>
     <p style="font-size:20px;">
-      Tu phool hai gulaab ka, mehek teri itar jaisi,<br><br>
-      Duniya ke saare gulaab milke banti hai tu, tu ek phool mei sama jaaye aise kaise,<br><br>
-	tu hai pure ke pure bageeche jaisi💕💕💕💕💕<br><br>
+      Not just today, my love,<br>
+but every day that follows —,<br><br>
+      I’ll keep choosing you<br>
+in the small moments,<br>
+the soft silences,<br>
+and the loud laughter.<br><br>
+      This is my proposal,<br>
+not once —<br>
+but always. 🌹🌹🌹🌹🌹<br><br>
+      
     </p>
     <p style="font-size:22px;color:#ff2f77;">I’ll tell you more tomorrow… 😌✨💖</p>
   </div>
@@ -229,12 +224,9 @@ const envelope = document.getElementById("envelope");
 const poemOverlay = document.getElementById("poemOverlay");
 const music = document.getElementById("bgMusic");
 
-document.body.addEventListener("click", () => {
-  music?.play().catch(()=>{});
-}, { once: true });
-
 let isYesLeft = true;
 let animating = false;
+let musicStarted = false;
 
 function swapButtons() {
   if (animating) return;
@@ -262,8 +254,24 @@ yesBtn.addEventListener("click", () => {
 
 envelope.addEventListener("click", () => {
   poemOverlay.style.display = "block";
-  startPetals();   // 🌹 ONLY NEW BEHAVIOR
+  startPetals();
+  playMusic();
 });
+
+function playMusic() {
+  if (musicStarted) return;
+  musicStarted = true;
+
+  music.volume = 0;
+  music.play().catch(() => {});
+
+  let v = 0;
+  const fade = setInterval(() => {
+    v += 0.02;
+    music.volume = Math.min(v, 0.35);
+    if (v >= 0.35) clearInterval(fade);
+  }, 120);
+}
 
 function createHearts() {
   for (let i = 0; i < 26; i++) {
